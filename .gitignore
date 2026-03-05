@@ -1,0 +1,18 @@
+## .NET
+bin/
+obj/
+publish/
+
+## IDE
+.vs/
+*.user
+*.suo
+*.csproj.user
+
+## Claude Code
+.claude/
+
+## OS
+Thumbs.db
+desktop.ini
+.DS_Store

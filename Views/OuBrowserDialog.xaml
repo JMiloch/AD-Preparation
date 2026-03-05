@@ -1,0 +1,95 @@
+<Window x:Class="SCCMAdPrep.Views.OuBrowserDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        xmlns:models="clr-namespace:SCCMAdPrep.Models"
+        Title="Browse Organizational Unit"
+        Width="560" Height="640"
+        MinWidth="440" MinHeight="500"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="CanResizeWithGrip"
+        Background="#F5F5F5">
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,18">
+            <TextBlock Text="Browse Organizational Units" FontSize="18" FontWeight="SemiBold" Foreground="#1A1A2E"/>
+            <TextBlock Text="Select an existing OU to use directly, or choose a parent location and enter a new OU name to create it there."
+                       FontSize="12" Foreground="#8888A0" Margin="0,6,0,0" TextWrapping="Wrap"/>
+        </StackPanel>
+
+        <!-- TreeView -->
+        <Border Grid.Row="1" Background="White" BorderBrush="#E0DDD8" BorderThickness="1"
+                CornerRadius="8" ClipToBounds="True">
+            <TreeView x:Name="OuTree" BorderThickness="0" Background="Transparent" Padding="6"
+                      SelectedItemChanged="OuTree_SelectedItemChanged">
+                <TreeView.Resources>
+                    <HierarchicalDataTemplate DataType="{x:Type models:OuTreeItem}" ItemsSource="{Binding Children}">
+                        <StackPanel Orientation="Horizontal" Margin="2,3">
+                            <Path Data="M2,6 L2,14 C2,15.1 2.9,16 4,16 L16,16 C17.1,16 18,15.1 18,14 L18,8 C18,6.9 17.1,6 16,6 L10,6 L8,4 L4,4 C2.9,4 2,4.9 2,6 Z"
+                                  Fill="#006ABB" Width="14" Height="14" Stretch="Uniform" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Name}" FontSize="13" Foreground="#1A1A2E" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+                </TreeView.Resources>
+                <TreeView.ItemContainerStyle>
+                    <Style TargetType="TreeViewItem">
+                        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=OneTime}"/>
+                        <Setter Property="Padding" Value="2"/>
+                    </Style>
+                </TreeView.ItemContainerStyle>
+            </TreeView>
+        </Border>
+
+        <!-- Create new OU at selected location -->
+        <Border Grid.Row="2" Margin="0,12,0,0" Background="White" BorderBrush="#E0DDD8"
+                BorderThickness="1" CornerRadius="6" Padding="14,10">
+            <StackPanel>
+                <TextBlock Text="NEW OU NAME (OPTIONAL)" FontSize="10" FontWeight="SemiBold" Foreground="#8888A0"
+                           Margin="0,0,0,6"/>
+                <TextBlock Text="Enter a name to create a new OU under the selected location. Leave empty to use the selected OU directly."
+                           FontSize="11" Foreground="#9090A4" Margin="0,0,0,8" TextWrapping="Wrap"/>
+                <TextBox x:Name="NewOuNameBox" FontSize="13" Padding="10,8"
+                         TextChanged="NewOuName_TextChanged">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Setter Property="Background" Value="#FAFAFA"/>
+                            <Setter Property="BorderBrush" Value="#E0DDD8"/>
+                            <Setter Property="BorderThickness" Value="1"/>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+            </StackPanel>
+        </Border>
+
+        <!-- Result preview -->
+        <Border Grid.Row="3" Margin="0,12,0,0" Background="White" BorderBrush="#E0DDD8"
+                BorderThickness="1" CornerRadius="6" Padding="14,10">
+            <StackPanel>
+                <TextBlock x:Name="PreviewLabel" Text="RESULT" FontSize="10" FontWeight="SemiBold" Foreground="#8888A0"
+                           Margin="0,0,0,4"/>
+                <TextBlock x:Name="SelectedPathText" Text="Click an OU in the tree above" FontSize="12"
+                           Foreground="#9090A4" FontStyle="Italic"
+                           TextTrimming="CharacterEllipsis"
+                           ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Buttons -->
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,18,0,0">
+            <ui:Button Content="Cancel" Appearance="Secondary" Padding="20,8" Click="Cancel_Click"
+                       FontSize="13" Cursor="Hand"/>
+            <ui:Button x:Name="SelectButton" Content="Select" Appearance="Primary" Padding="20,8"
+                       Margin="12,0,0,0" Click="Select_Click" IsEnabled="False"
+                       FontSize="13" FontWeight="SemiBold" Cursor="Hand"/>
+        </StackPanel>
+    </Grid>
+</Window>

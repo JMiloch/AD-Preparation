@@ -2,6 +2,8 @@
 
 WPF-Anwendung zur automatisierten Active-Directory-Vorbereitung fuer SCCM/MECM-Deployments.
 
+![SCCM AD Preparation Tool](AD%20Preparation%20Tool.png)
+
 ## Ueberblick
 
 Das Tool automatisiert alle AD-relevanten Vorbereitungsschritte fuer eine SCCM/MECM-Installation:
